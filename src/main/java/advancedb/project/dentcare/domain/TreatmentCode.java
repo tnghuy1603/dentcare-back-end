@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Entity
 @Getter
 @Builder
@@ -18,6 +20,7 @@ public class TreatmentCode {
     private Long id;
     @Column(columnDefinition = "TEXT")
     private String description;
+    private BigDecimal fee;
 
     @ManyToOne
     @JoinColumn(name = "treatment_category_id")

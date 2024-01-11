@@ -6,7 +6,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,15 +17,20 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+//@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"date", "dentist_id", "work_shift_id"})})
+
 public class WorkingSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    @ManyToMany
-    @JoinTable(name = "dentist_working_schedule",
-    joinColumns = @JoinColumn(name = "working_schedule_id"),
-    inverseJoinColumns = @JoinColumn(name = "dentist_id"))
-    private Set<User> dentists;
+    private Integer id;
+    private LocalDate date;
+
+    @ManyToOne
+    @JoinColumn(name = "dentist_id")
+    private User dentist;
+
+    @ManyToOne
+    @JoinColumn(name = "work_shift_id")
+    private WorkShift workShift;
+
 }

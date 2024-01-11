@@ -1,10 +1,7 @@
 package advancedb.project.dentcare.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,15 +11,18 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
 public class Invoice {
     @Id
-    private Long id;
-    @Column(columnDefinition = "TEXT")
+    private Integer id;
+    private BigDecimal totalFee;
     private BigDecimal paidAmount;
+    private BigDecimal changeAmount;
     private String note;
     private String method;
     private LocalDateTime createdAt;
-    @OneToOne(fetch = FetchType.LAZY)
+
+    @OneToOne
     @MapsId
     private TreatmentPlan treatmentPlan;
 }

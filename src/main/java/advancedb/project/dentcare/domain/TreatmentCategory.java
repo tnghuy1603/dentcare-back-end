@@ -1,5 +1,6 @@
 package advancedb.project.dentcare.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class TreatmentCategory {
     private String name;
     private String description;
     @OneToMany(mappedBy = "treatmentCategory")
+    @JsonIgnore
     private List<TreatmentCode> treatmentCodes;
 
 }

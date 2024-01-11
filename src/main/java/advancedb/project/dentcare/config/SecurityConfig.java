@@ -21,6 +21,7 @@ import java.util.Arrays;
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
+
 @Slf4j
 public class SecurityConfig {
     private final JwtFilter jwtFilter;
@@ -35,6 +36,7 @@ public class SecurityConfig {
         });
         http.authorizeHttpRequests()
                 .requestMatchers(
+                        "users/**",
                 "/swagger-ui/**",
                 "/v3/api-docs",
                 "/v3/api-docs/**",
@@ -45,10 +47,11 @@ public class SecurityConfig {
                 "/webjars/**",
                 "/swagger-ui.html",
                         "auth/**").permitAll();
-        http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.GET,"users", "medications").hasAnyRole("ADMIN", "DENTIST", "STAFF");
-        http.authorizeHttpRequests().requestMatchers(HttpMethod.POST, "users", "medications").hasRole("ADMIN");
+
+//        http.authorizeHttpRequests().requestMatchers(HttpMethod.POST, "users", "medications").hasRole("ADMIN");
+
         http.authorizeHttpRequests().requestMatchers("patients/oral-health/**").hasRole("DENTIST");
+        http.authorizeHttpRequests().requestMatchers("patients/allergic/**").permitAll();
         http.authorizeHttpRequests().requestMatchers(HttpMethod.POST, "invoices").hasAnyRole("STAFF", "ADMIN");
         http.authorizeHttpRequests().anyRequest().authenticated();
         http.authenticationProvider(authenticationProvider).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

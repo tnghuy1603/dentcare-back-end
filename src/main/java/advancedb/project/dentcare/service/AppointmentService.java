@@ -9,11 +9,15 @@ import advancedb.project.dentcare.repository.AppointmentRepository;
 import advancedb.project.dentcare.repository.PatientRepository;
 import advancedb.project.dentcare.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +51,7 @@ public class AppointmentService {
         User dentist = userRepository.findByRoleAndId("ROLE_DENTIST", request.getDentistId())
                 .orElseThrow(() -> new ResourceNotFoundException("No patient with id = " + request.getDentistId()));
         User assistant = null;
-        if(request.getAssistantId() != null){
+        if(request.getAssistantId() != null) {
             assistant = userRepository.findByRoleAndId("ROLE_DENTIST", request.getAssistantId())
                     .orElseThrow(() -> new ResourceNotFoundException("No patient with id = " + request.getAssistantId()));
         }
@@ -71,6 +75,7 @@ public class AppointmentService {
         return "Deleted";
     }
 
+
     public Appointment getAppointment(Integer appointmentId) {
         return appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("No appointment with id = " + appointmentId));
@@ -81,4 +86,20 @@ public class AppointmentService {
         return appointmentRepository.findByPatient_IdAndStatus(patientId, status);
     }
 
+    public Map<LocalDate, Integer> getStatisticByDentist(Integer dentistId, LocalDate from, LocalDate to) {
+        Map<LocalDate, Integer> appointmentCountByDateAndDentist = new HashMap<>();
+        List<Object[]> result = appointmentRepository.getAppointmentCountByDate(dentistId, from, to);
+        List<LocalDate> dates = from.datesUntil(to).toList();
+        for(LocalDate date: dates){
+            appointmentCountByDateAndDentist.put(date, 0);
+        }
+
+        for(Object[] row: result){
+            
+            Date date = (Date) row[0];
+            int count = (int) row[1];
+            appointmentCountByDateAndDentist.put(date.toLocalDate(), count);
+        }
+        return appointmentCountByDateAndDentist;
+    }
 }

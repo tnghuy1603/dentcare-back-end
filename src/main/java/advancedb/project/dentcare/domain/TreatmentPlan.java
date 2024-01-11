@@ -1,11 +1,11 @@
 package advancedb.project.dentcare.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +15,13 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Setter
 public class TreatmentPlan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private LocalDate startingDate;
+    private Integer id;
+    private LocalDate startDate;
+
     @Column
     private String status;
     @Column(columnDefinition = "TEXT")
@@ -40,5 +41,11 @@ public class TreatmentPlan {
     joinColumns = @JoinColumn(name = "treatment_plan_id"),
     inverseJoinColumns = @JoinColumn(name = "tooth_selection_id"))
     private List<ToothSelection> toothSelectionList;
+    @OneToMany(mappedBy = "treatmentPlan", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Treatment> treatments;
+    @OneToMany(mappedBy = "treatmentPlan", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Prescription> prescriptions;
 
 }

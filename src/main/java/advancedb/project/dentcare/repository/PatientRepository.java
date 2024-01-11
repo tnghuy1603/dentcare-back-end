@@ -3,6 +3,8 @@ package advancedb.project.dentcare.repository;
 import advancedb.project.dentcare.domain.Medication;
 import advancedb.project.dentcare.domain.Patient;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +22,5 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Transactional
     @Query(value = "INSERT INTO allergic_medicine(patient_id, medicine_id) VALUES (:patientId, :medicineId)", nativeQuery = true)
     void insertAllergicMedicine(@Param("patientId") Integer patientId, @Param("medicineId") Integer medicineId);
+    Page<Patient> findByNameContaining(String name, Pageable pageable);
 }

@@ -1,5 +1,6 @@
 package advancedb.project.dentcare.utils;
 
+import advancedb.project.dentcare.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -32,11 +33,13 @@ public class JwtUtils {
     }
     public String generateToken(UserDetails userDetails){
         HashMap<String, Object> extraClaims = new HashMap<>();
+        User user = (User) userDetails;
         List<String> roles = userDetails.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
         extraClaims.put("roles", roles);
+        extraClaims.put("username", user.getName());
         return generateToken(extraClaims, userDetails);
     }
 

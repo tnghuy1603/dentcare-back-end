@@ -19,5 +19,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
     @Query("SELECT a FROM Appointment a WHERE a.patient.name LIKE %:patientName% AND a.date = :date")
     List<Appointment> findByPatientNameAndDate(@Param("patientName") String patientName, @Param("date") LocalDate date);
+    @Query(nativeQuery = true, value = "SELECT appointment.date, COUNT(*) FROM appointment WHERE dentist_id = :dentistId AND appointment.date between :fromDate AND :toDate GROUP BY appointment.date")
+    List<Object[]> getAppointmentCountByDate(@Param("dentistId") Integer dentistId, @Param("fromDate") LocalDate from,@Param("toDate") LocalDate to);
 
 }

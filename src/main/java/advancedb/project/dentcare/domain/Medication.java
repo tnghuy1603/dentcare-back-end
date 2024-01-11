@@ -26,6 +26,9 @@ public class Medication {
     private String description;
     private LocalDate expireDate;
     private BigDecimal price;
+    private Integer stock;
+
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE},mappedBy = "allergicMedicines")
     @JsonBackReference
     private Set<Patient> allergyPatients = new HashSet<>();

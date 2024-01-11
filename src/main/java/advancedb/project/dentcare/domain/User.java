@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,9 +23,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Setter
 @Table(name = "`user`")
-//@NamedStoredProcedureQueries(
-////        @NamedStoredProcedureQuery(name = "findByRole", procedureName = "usp_FindUserByRole", resultClasses = UserDto.class)
-//)
+
 public class User implements UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -43,7 +42,7 @@ public class User implements UserDetails {
     @JsonManagedReference
     private Branch branch;
 
-    @ManyToMany(mappedBy = "dentists", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "dentist")
     @JsonIgnore
     private Set<WorkingSchedule> workingSchedules;
 

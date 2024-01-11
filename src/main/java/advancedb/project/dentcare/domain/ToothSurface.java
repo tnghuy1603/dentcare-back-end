@@ -2,6 +2,7 @@ package advancedb.project.dentcare.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ToothSurface {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
     private String description;
 }

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,11 +19,13 @@ public class Prescription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer quantity;
-    private String unit;
-    @ManyToOne(targetEntity = Patient.class)
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
+    private String dosage;
+    private int quantity;
+    private String frequency;
+    private BigDecimal price;
+    @ManyToOne(targetEntity = TreatmentPlan.class)
+    @JoinColumn(name = "treatment_plan_id")
+    private TreatmentPlan treatmentPlan;
     @ManyToOne(targetEntity = Medication.class)
     @JoinColumn(name = "medication_id")
     private Medication medication;

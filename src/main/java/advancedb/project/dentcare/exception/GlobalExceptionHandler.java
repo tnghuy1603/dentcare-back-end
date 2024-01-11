@@ -44,6 +44,15 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .build();
     }
+    @ExceptionHandler({IllegalArgumentException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse handleDisable(IllegalArgumentException exception){
+        log.info("Disable exception");
+        return ExceptionResponse.builder()
+                .message(exception.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

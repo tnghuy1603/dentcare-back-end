@@ -9,9 +9,12 @@ import java.util.List;
 public class AddTreatmentPlanRequest {
     private Integer patientId;
     private List<Integer> treatmentCodeId;
+    private Integer dentistId;
+    private Integer assistantId;
     private List<ToothSelectionDto> toothSelectionDtoList;
     private String note;
     private LocalDate startingDate;
     private String status;
+
 
 }

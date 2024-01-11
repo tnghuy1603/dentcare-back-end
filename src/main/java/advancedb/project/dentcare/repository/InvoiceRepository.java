@@ -10,4 +10,5 @@ import java.util.List;
 public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
     @Query("SELECT i FROM Invoice i WHERE i.treatmentPlan.patient.id = :patientId")
     List<Invoice> findByPatientId(@RequestParam("patientId") Integer patientId);
+
 }

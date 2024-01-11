@@ -28,6 +28,7 @@ public class MedicationService {
         medicationToUpdate.setExpireDate(request.getExpireDate());
         return medicationRepository.save(medicationToUpdate);
     }
+    
 
 
     public Medication addMedication(AddMedicationRequest request) {
@@ -39,4 +40,5 @@ public class MedicationService {
                 .build();
         return medicationRepository.save(medication);
     }
+
 }

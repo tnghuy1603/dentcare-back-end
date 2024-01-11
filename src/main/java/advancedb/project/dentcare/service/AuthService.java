@@ -1,5 +1,6 @@
 package advancedb.project.dentcare.service;
 
+import advancedb.project.dentcare.domain.User;
 import advancedb.project.dentcare.dto.LoginRequest;
 import advancedb.project.dentcare.dto.LoginResponse;
 import advancedb.project.dentcare.repository.UserRepository;
@@ -31,5 +32,9 @@ public class AuthService {
                 .accessToken(accessToken)
                 .message("Logged in")
                 .build();
+    }
+
+    public boolean validateToken(String accessToken, User user) {
+        return jwtUtils.validateToken(accessToken, user);
     }
 }
